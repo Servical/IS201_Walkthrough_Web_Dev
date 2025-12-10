@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to Survive a Dinosaur Attack (Kid-Friendly Guide)</title>
+
+  <!-- Scary-looking font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Jungle palette */
+      --deep-jungle: #0b3d2e;     /* deep green background */
+      --leaf: #1f6f4f;            /* medium green sections */
+      --lime-vine: #6bd08c;       /* bright green accents */
+      --sun-orange: #f5a623;      /* contrast highlight */
+      --moon-cream: #f4f1e8;      /* readable text */
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(160deg, var(--deep-jungle) 0%, #0e4636 60%, #125242 100%);
+      color: var(--moon-cream);
+      font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* Page container */
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 28px 22px 48px;
+    }
+
+    /* Centered title, “scary” font */
+    .title {
+      font-family: 'Creepster', cursive;
+      font-size: 3rem;
+      letter-spacing: 1px;
+      text-align: center;
+      margin: 24px 0 8px;
+      color: var(--moon-cream);
+      text-shadow: 3px 4px 0 var(--shadow), 0 0 12px #0c271f;
+    }
+
+    /* Fun subtitle ribbon */
+    .subtitle {
+      display: inline-block;
+      margin: 0 auto 22px;
+      padding: 8px 14px;
+      background: linear-gradient(180deg, var(--leaf), #185c45);
+      border: 2px dashed var(--lime-vine);
+      border-radius: 8px;
+      color: var(--moon-cream);
+      box-shadow: 0 8px 20px var(--shadow);
+      font-weight: 600;
+    }
+
+    /* Section card */
+    .card {
+      background: linear-gradient(180deg, rgba(31,111,79,0.35), rgba(31,111,79,0.15));
+      border: 1px solid #1c5d45;
+      border-radius: 12px;
+      padding: 18px 18px 8px;
+      box-shadow: 0 10px 24px var(--shadow);
+      margin: 20px 0;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-family: 'Creepster', cursive;
+      font-size: 1.9rem;
+      color: var(--lime-vine);
+      letter-spacing: 0.5px;
+      text-shadow: 2px 3px 0 rgba(0,0,0,0.35);
+    }
+
+    .card p {
+      margin: 8px 0 14px;
+    }
+
+    /* Jungle bullets */
+    ul.steps {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    ul.steps li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      margin: 12px 0;
+      padding: 14px 12px;
+      background: rgba(15, 66, 50, 0.55);
+      border-left: 6px solid var(--sun-orange);
+      border-radius: 10px;
+      box-shadow: 0 6px 16px var(--shadow);
+    }
+
+    /* Leaf icon bullet */
+    .leaf {
+      width: 18px;
+      height: 18px;
+      border-radius: 2px;
+      background: radial-gradient(circle at 40% 40%, var(--lime-vine), #3ea36e 60%, #1b5b43 100%);
+      box-shadow: inset 0 0 2px rgba(0,0,0,0.4), 0 2px 6px var(--shadow);
+      transform: rotate(-10deg);
+      margin-top: 4px;
+    }
+
+    /* Emphasized step title */
+    .step-title {
+      font-weight: 600;
+      color: var(--moon-cream);
+    }
+
+    /* Helpful tip callout */
+    .tip {
+      margin: 16px 0;
+      padding: 12px 14px;
+      background: rgba(245, 166, 35, 0.15);
+      border: 1px solid var(--sun-orange);
+      border-radius: 10px;
+      color: var(--moon-cream);
+    }
+
+    /* Links styled for jungle theme */
+    a {
+      color: var(--lime-vine);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    a:hover, a:focus {
+      color: #9ef0b4;
+      border-color: #9ef0b4;
+      text-shadow: 0 0 6px rgba(110, 208, 140, 0.6);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 28px;
+      font-size: 0.95rem;
+      color: #dfe7df;
+      opacity: 0.95;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 520px) {
+      .title { font-size: 2.4rem; }
+      .card h2 { font-size: 1.6rem; }
+      .wrap { padding: 20px 16px 36px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <h1 class="title">How to Survive a Dinosaur Attack</h1>
+    <div class="subtitle">A kid-friendly jungle guide for brave explorers</div>
+
+    <section class="card" aria-labelledby="what-to-do">
+      <h2 id="what-to-do">Quick steps to stay safe</h2>
+      <p>
+        Pretend-play scenario: If a dinosaur shows up in your imagination jungle, here’s how to stay cool, think smart, and make great choices.
+        This guide is for fun learning—be brave, be kind, and be clever!
+      </p>
+
+      <ul class="steps">
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Pause and breathe like a calm explorer.</div>
+            Take one deep breath in, one slow breath out. Quiet minds make quick, smart choices.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Look and listen for clues.</div>
+            Big footsteps mean a heavier dino; rustling bushes mean it might be small and speedy. Stay alert and curious.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Move to safe, sturdy places.</div>
+            Imagine stepping behind a strong tree, a big rock, or into a cozy cave. Pick quiet paths and avoid open fields.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Be still if it hasn’t noticed you.</div>
+            Sometimes the smartest move is a freeze. Slow, small movements help you stay hidden like a jungle shadow.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">If it’s near, use gentle distractions.</div>
+            Drop a hat or backpack to the side and quietly step the other way. Keep your path calm and steady.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Choose smart paths: up, around, or away.</div>
+            Walk where it’s harder for big feet to go—over roots, around rocks, and along twisty trails. No running, just smooth sneaking.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Team up and signal softly.</div>
+            Stay with your explorer group. Use quiet hand signals and calm whispers. Everyone moves together.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Know your dinos, know your plan.</div>
+            Big plant-eaters might ignore you; small fast ones are curious. Learn and adapt like a scientist.
+          </div>
+        </li>
+
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Celebrate safe choices.</div>
+            Once you’re clear, high-five your team, sip some water, and write down what worked for next time.
+          </div>
+        </li>
+      </ul>
+
+      <div class="tip" role="note">
+        Explorer tip: Quiet feet, steady steps, and clever paths beat speed. Patience is your jungle superpower.
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="learn-more">
+      <h2 id="learn-more">Learn more about dinosaurs</h2>
+      <p>
+        Want to learn the science behind your pretend-play? Check out these beginner-friendly encyclopedia pages:
+      </p>
+      <ul class="steps" aria-label="Helpful links">
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Dinosaur basics</div>
+            <a href="https://en.wikipedia.org/wiki/Dinosaur" target="_blank" rel="noopener">Dinosaur</a>
+            — overview of different kinds and how scientists study them.
+          </div>
+        </li>
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Famous big meat-eater</div>
+            <a href="https://en.wikipedia.org/wiki/Tyrannosaurus" target="_blank" rel="noopener">Tyrannosaurus</a>
+            — learn about T. rex’s size, teeth, and fossil discoveries.
+          </div>
+        </li>
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Small and speedy</div>
+            <a href="https://en.wikipedia.org/wiki/Velociraptor" target="_blank" rel="noopener">Velociraptor</a>
+            — quick, clever, and famous in movies.
+          </div>
+        </li>
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Shield-headed plant-eater</div>
+            <a href="https://en.wikipedia.org/wiki/Triceratops" target="_blank" rel="noopener">Triceratops</a>
+            — horns, frill, and a strong dino body plan.
+          </div>
+        </li>
+        <li>
+          <div class="leaf" aria-hidden="true"></div>
+          <div>
+            <div class="step-title">Plates and tail spikes</div>
+            <a href="https://en.wikipedia.org/wiki/Stegosaurus" target="_blank" rel="noopener">Stegosaurus</a>
+            — what those back plates might have done.
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      This playful guide is for imaginative, kid-friendly learning in a jungle theme. For real-world safety, always follow trusted adult guidance.
+    </footer>
+  </main>
+</body>
+</html>

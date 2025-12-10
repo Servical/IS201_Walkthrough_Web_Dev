@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dune 2 Worm Snake – Duel</title>
+  <style>
+    :root {
+      --cell-size: 24;
+      --cols: 25;
+      --rows: 20;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+      color: #eee;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .game-wrapper {
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+
+    .info {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #d7c8a6;
+    }
+
+    canvas {
+      border: 4px solid #a0793d;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+      image-rendering: pixelated;
+      background: radial-gradient(circle at 20% 20%, #f7e3b5 0, #e1c486 30%, #caa362 60%, #a87d3d 100%);
+    }
+
+    .score {
+      margin-top: 6px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-wrapper">
+    <h1>Sandworm Riders: Duel</h1>
+    <div class="info">
+      Arrow keys to move. Eat the people, avoid the edges, your own body, and the rival worm.
+    </div>
+    <canvas id="board"></canvas>
+    <div class="score">Score: <span id="score">0</span></div>
+  </div>
+
+<script>
+  const cellSize = 24;
+  const cols = 25;
+  const rows = 20;
+
+  const canvas = document.getElementById("board");
+  const scoreEl = document.getElementById("score");
+  canvas.width = cols * cellSize;
+  canvas.height = rows * cellSize;
+  const ctx = canvas.getContext("2d");
+
+  let worm = [];
+  let dir = { x: 1, y: 0 };
+  let pendingDir = { x: 1, y: 0 };
+
+  let rivalWorm = [];
+  let rivalDir = { x: -1, y: 0 };
+
+  let food = null;
+  let gameOver = false;
+  let score = 0;
+
+  function initGame() {
+    const playerStartY = Math.floor(rows / 2);
+    worm = [
+      { x: Math.floor(cols / 3),     y: playerStartY },
+      { x: Math.floor(cols / 3) - 1, y: playerStartY },
+      { x: Math.floor(cols / 3) - 2, y: playerStartY }
+    ];
+
+    const rivalStartY = Math.floor(rows / 2) - 3;
+    rivalWorm = [
+      { x: Math.floor((2 * cols) / 3),     y: rivalStartY },
+      { x: Math.floor((2 * cols) / 3) + 1, y: rivalStartY },
+      { x: Math.floor((2 * cols) / 3) + 2, y: rivalStartY }
+    ];
+
+    dir = { x: 1, y: 0 };
+    pendingDir = { x: 1, y: 0 };
+    rivalDir = { x: -1, y: 0 };
+
+    placeFood();
+    gameOver = false;
+    score = 0;
+    scoreEl.textContent = score;
+  }
+
+  // Food never on outermost squares or on worms
+  function placeFood() {
+    while (true) {
+      const fx = 1 + Math.floor(Math.random() * (cols - 2));
+      const fy = 1 + Math.floor(Math.random() * (rows - 2));
+
+      const onPlayer = worm.some(seg => seg.x === fx && seg.y === fy);
+      const onRival  = rivalWorm.some(seg => seg.x === fx && seg.y === fy);
+      if (!onPlayer && !onRival) {
+        food = { x: fx, y: fy };
+        return;
+      }
+    }
+  }
+
+  function isOutOfBounds(pos) {
+    return pos.x < 0 || pos.x >= cols || pos.y < 0 || pos.y >= rows;
+  }
+
+  function collidesWithArray(pos, arr) {
+    return arr.some(seg => seg.x === pos.x && seg.y === pos.y);
+  }
+
+  function update() {
+    if (gameOver) return;
+
+    if (Math.abs(pendingDir.x) !== Math.abs(dir.x) || Math.abs(pendingDir.y) !== Math.abs(dir.y)) {
+      dir = pendingDir;
+    }
+
+    // Move player
+    const head = worm[0];
+    const newHead = { x: head.x + dir.x, y: head.y + dir.y };
+
+    if (isOutOfBounds(newHead) || collidesWithArray(newHead, worm) || collidesWithArray(newHead, rivalWorm)) {
+      endGame();
+      return;
+    }
+
+    worm.unshift(newHead);
+
+    if (food && newHead.x === food.x && newHead.y === food.y) {
+      score++;
+      scoreEl.textContent = score;
+      placeFood();
+    } else {
+      worm.pop();
+    }
+
+    moveRival();
+
+    const rivalHead = rivalWorm[0];
+    if (
+      isOutOfBounds(rivalHead) ||
+      collidesWithArray(rivalHead, rivalWorm.slice(1)) ||
+      collidesWithArray(rivalHead, worm)
+    ) {
+      endGame();
+      return;
+    }
+
+    draw();
+  }
+
+  function moveRival() {
+    if (!food) return;
+    const head = rivalWorm[0];
+    const options = [];
+    const dx = Math.sign(food.x - head.x);
+    const dy = Math.sign(food.y - head.y);
+
+    if (dx !== 0) options.push({ x: dx, y: 0 });
+    if (dy !== 0) options.push({ x: 0, y: dy });
+    options.push({ x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 });
+
+    let chosenDir = rivalDir;
+    for (const c of options) {
+      if (c.x === -rivalDir.x && c.y === -rivalDir.y) continue;
+      const t = { x: head.x + c.x, y: head.y + c.y };
+      if (!isOutOfBounds(t) && !collidesWithArray(t, rivalWorm) && !collidesWithArray(t, worm)) {
+        chosenDir = c;
+        break;
+      }
+    }
+
+    rivalDir = chosenDir;
+    const newHead = { x: head.x + rivalDir.x, y: head.y + rivalDir.y };
+    rivalWorm.unshift(newHead);
+    rivalWorm.pop();
+  }
+
+  function endGame() {
+    gameOver = true;
+    setTimeout(() => {
+      alert("Game over! Final score: " + score + "\nPress OK to restart.");
+      initGame();
+      draw();
+    }, 50);
+  }
+
+  function drawSandBackground() {
+    ctx.fillStyle = "#d9b777";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawWormRect(seg, isHead, isRival) {
+    const px = seg.x * cellSize;
+    const py = seg.y * cellSize;
+    ctx.fillStyle = isRival ? (isHead ? "#355b7b" : "#3f6c92")
+                            : (isHead ? "#7b4b2a" : "#8f5b32");
+    ctx.fillRect(px + 2, py + 2, cellSize - 4, cellSize - 4);
+  }
+
+  function drawFood(x, y) {
+    const px = x * cellSize;
+    const py = y * cellSize;
+    ctx.fillStyle = "#111";
+    ctx.beginPath();
+    ctx.arc(px + cellSize / 2, py + cellSize / 2, cellSize / 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function draw() {
+    drawSandBackground();
+
+    if (food) drawFood(food.x, food.y);
+
+    rivalWorm.forEach((seg, i) => drawWormRect(seg, i === 0, true));
+    worm.forEach((seg, i) => drawWormRect(seg, i === 0, false));
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "ArrowUp" && dir.y !== 1) {
+      pendingDir = { x: 0, y: -1 };
+    } else if (e.code === "ArrowDown" && dir.y !== -1) {
+      pendingDir = { x: 0, y: 1 };
+    } else if (e.code === "ArrowLeft" && dir.x !== 1) {
+      pendingDir = { x: -1, y: 0 };
+    } else if (e.code === "ArrowRight" && dir.x !== -1) {
+      pendingDir = { x: 1, y: 0 };
+    }
+  });
+
+  const speed = 120;
+  setInterval(update, speed);
+
+  initGame();
+  draw();
+</script>
+
+</body>
+</html>
